@@ -1,36 +1,68 @@
 import "./index.css"
-import { initializeApp} from "firebase/app"
-import {db} from './firebase';
-import {
-  getFirestore, collection,
-  addDoc, getDocs, doc,
-  onSnapshot, query, serverTimestamp,
-  orderBy, deleteDoc, updateDoc
 
-} from "firebase/firestore";
+import { db } from "../firebase.js"
+import {getFirestore, collection, addDoc,getDocs } from "firebase/firestore"
+import React, { useEffect, useState } from "react";
+ 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDaaC5Sig9tNH5obPNdrIhsiDKlr6Wiw78",
-  authDomain: "attendance-smit-bb46a.firebaseapp.com",
-  projectId: "attendance-smit-bb46a",
-  storageBucket: "attendance-smit-bb46a.appspot.com",
-  messagingSenderId: "421970070235",
-  appId: "1:421970070235:web:999ac083ead158f5541afe"
-};
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+
+
+
 
 
 function  Dashboard() {
 
 
+   const [name, setName] = useState("");
+  //  const  [fatherName, setfatherName] = useState([]);
+  //  const  [rollNumber, setrollNumber] = useState([]);
+  //  const [contactNum, setcontactNum]= useState("")
+
+
+
+
+
+
+  const addStudents = async (e) => {
+    e.preventDefault();
+    
+
+    console.log("Students: ", name);
+ 
+    try {
+
+      const docRef = await addDoc(collection(db, "students"), {
+        Name: name,
+        // fName:fatherName,
+        // rollNum: rollNumber,
+        // contact: contactNum,
+        // createdOn: new Date().getTime(),
+      
+      });
+      console.log("Document written with ID: ", docRef.id);
+
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+}
 
 
     return (
     <>
-      This Home age
+    <form onSubmit={addStudents}>
+    <textarea
+      type="text"
+      placeholder="What's in your mind..."
+      onChange={(e) => {
+        setName(e.target.value)
+      }}
+    />
+    <br />
+    <button type="submit">Post</button>
+  </form> 
+
     </>
     );
     
